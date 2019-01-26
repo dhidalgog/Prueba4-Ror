@@ -1,28 +1,47 @@
-<h1>Tasks</h1>
-  <div class="row">
-    <% @tasks.each_slice(3) do |slice| %>
-      <% slice.each do |task| %>
-          <div class='col-md-4 mt-5'>
-            <div class='card text-white border-primary'>
-              <%= image_tag task.photo, class:'card-img-top' %>
-              <div class='body text-center'>
-                <%= task.title %>
-                <%= task.description %>
-              </div>
-              <%= link_to 'Show', task %>
-              <%
-=begin
- <%= link_to 'Edit', edit_task_path(task) %>
- <%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %> 
-<%
-=end%>
+<h2>Tasks Uncompleted </h2>
+<div class="row">
+  <% @tasks.each_slice(3) do |slice| %>
+    <% slice.each do |task| %>
+      <% tu = TasksUsers.find_by(user_id: current_user.id, task_id: task.id) %>
+      <% if tu.nil? || (tu.nil? == false && tu.completed == false) %>
+        <div class='col-md-4 mt-5'>
+          <div class='card text-white border-primary'>
+            <%= image_tag task.photo, class:'card-img-top' %>
+            <div class='body text-center'>
+              <%= task.title %>
+              <%= task.description %>
             </div>
+            <%= link_to 'Show', task, class: 'btn btn-success' %>
+            <%= link_to 'Completed', task_task_user_index_path(task), class: 'btn btn-primary', method: :post  %>
           </div>
+        </div>
       <% end %>
-      <div class='div w-100'></div>
     <% end %>
-  </div>
+    <div class='div w-100'></div>
+  <% end %>
+</div>
 
-<br>
+<h2>Tasks Completed </h2>
+<div class="row">
+  <% @tasks.each_slice(3) do |slice| %>
+    <% slice.each do |task| %>
+      <% tu = TasksUsers.find_by(user_id: current_user.id, task_id: task.id) %>
+      <% if tu.nil? == false && tu.completed = true %>
+        <div class='col-md-4 mt-5'>
+          <div class='card text-white border-primary'>
+            <%= image_tag task.photo, class:'card-img-top' %>
+            <div class='body text-center'>
+              <%= task.title %>
+              <%= task.description %>
+            </div>
+            <%= link_to 'Show', task, class: 'btn btn-success' %>
+            <%= link_to 'Uncompleted', task_task_user_path(task, tu), class: 'btn btn-primary', method: :patch  %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+    <div class='div w-100'></div>
+  <% end %>
+</div>
 
 <%= link_to 'New Task', new_task_path %>

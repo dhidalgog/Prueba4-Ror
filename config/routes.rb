@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
-  get 'task_user/create'
   root to: 'tasks#index'
-  resources :tasks
-  
+  resources :tasks do
+    resources :task_user, only: [:create, :update]
+  end
+
   devise_for :users, controllers: {
     registrations: 'users/registrations'
   }
