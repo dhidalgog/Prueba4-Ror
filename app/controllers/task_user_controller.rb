@@ -2,18 +2,24 @@ class TaskUserController < ApplicationController
 
   def create
     @task = Task.find(params[:task_id])
-    @task_user = TasksUsers.new(user_id: current_user.id, task_id: @task.id, completed: true)
+      time = Time.now
+      @task_user = TasksUsers.new(user_id: current_user.id, task_id: @task.id, completed: true, completed_at: time)
 
-    if @task_user.save
-      redirect_to tasks_path, notice: "The task has been completed"
-    else
-      redirect_to tasks_path, alert: "The task could not be completed"
-    end
+      if @task_user.save
+        redirect_to tasks_path, notice: "The task has been completed"
+      else
+        redirect_to tasks_path, alert: "The task could not be completed"
+      end
   end
 
   def update
     @task_user = TasksUsers.find(params[:id])
-    @task_user.update(completed: false)
-    redirect_to tasks_path
+    if @task_user.completed == true
+      @task_user.update(completed: false)
+      redirect_to tasks_path
+    else
+      @task_user.update(completed: true)
+      redirect_to tasks_path
+    end
   end
 end
