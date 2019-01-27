@@ -1,19 +1,24 @@
-<p>
-  <strong>Title:</strong>
-  <%= @task.title %>
-</p>
+<h1> Ranking </h1>
+<div class='row'>
+  <% @tus = TasksUsers.all.where(task_id: @task.id) %>
+  <% @tus.each do |tu| %>
+    <div class='col-md-6'>
+      <%= User.find_by(id: tu.user_id).name %>
+      <%= User.find_by(id: tu.user_id).lastname %>
+      <%= User.find_by(id: tu.user_id).email %>
+    </div>
+  <% end%>
 
-<p>
-  <strong>Description:</strong>
-  <%= @task.description %>
-</p>
-
-<p>
-  <strong>Photo:</strong>
-  <%= @task.photo %>
-</p>
-
-<% @tu = TasksUsers.find_by(user_id: current_user.id, task_id: @task.id) %>
-
+  <div class='col-md-6 mt-5'>
+    <div class='card text-white border-primary'>
+      <%= image_tag(@task.photo, height: '300', width: '150' , class:'card-img-top') %>
+      <div class='body text-center'>
+        <%= @task.title %>
+        <br>
+        <%=@task.description %>
+      </div>
+    </div>
+  </div>
+</div>
 
 <%= link_to 'Back', tasks_path %>
