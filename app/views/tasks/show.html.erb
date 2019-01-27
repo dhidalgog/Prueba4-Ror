@@ -1,14 +1,23 @@
-<h1> Ranking </h1>
+<h1> Ranking: Personas que han completado la tarea. </h1>
+<hr>
 <div class='row'>
   <% @tus = TasksUsers.all.where(task_id: @task.id) %>
+  <% @tus = @tus.order(completed_at: :asc) %>
   <% @tus.each do |tu| %>
-    <div class='col-md-6'>
+  <% if tu.completed_at != nil %>
+    <div class="col-md-1"> 
+      <h3><%= @counter %>. </h3> 
+    </div>
+    <div class='col-md-11'>
       <%= User.find_by(id: tu.user_id).name %>
       <%= User.find_by(id: tu.user_id).lastname %>
       <%= User.find_by(id: tu.user_id).email %>
+      <p> Completado el  <%= tu.completed_at %> </p>
+      <% @counter += 1 %>
     </div>
+    <% end %>
   <% end%>
-
+  <hr>
   <div class='col-md-6 mt-5'>
     <div class='card text-white border-primary'>
       <%= image_tag(@task.photo, height: '300', width: '150' , class:'card-img-top') %>
@@ -21,4 +30,3 @@
   </div>
 </div>
 
-<%= link_to 'Back', tasks_path %>

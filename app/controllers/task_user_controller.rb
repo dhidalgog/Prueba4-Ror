@@ -15,9 +15,9 @@ class TaskUserController < ApplicationController
   def update
     @task_user = TasksUsers.find(params[:id])
     if @task_user.completed == true
-      @task_user.update(completed: false)
+      @task_user.update(completed: false, completed_at: nil)
     else
-      @task_user.update(completed: true)
+      @task_user.update(completed: true, completed_at: Time.now)
     end
     redirect_to tasks_path
   end
