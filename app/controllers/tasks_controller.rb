@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :total_completed, only: [:index, :show]
   before_action :authenticate_user!
   # GET /tasks
   # GET /tasks.json
@@ -62,6 +63,18 @@ class TasksController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def total_completed
+    if signed_in?
+      @count = 0
+      @TasksUsers = TasksUsers.all
+      @total_completed = @TasksUsers.where(user_id: current_user.id)
+      @total_completed.each do |total|
+        @count += 1 if total.completed == true
+      end
+   end
+  end
+
 
   private
   # Use callbacks to share common setup or constraints between actions.

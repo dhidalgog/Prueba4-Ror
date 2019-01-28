@@ -2,7 +2,7 @@
 <hr>
 <div class='row'>
   <% @tus = TasksUsers.all.where(task_id: @task.id) %>
-  <% @tus = @tus.order(completed_at: :asc) %>
+    <% @tus = @tus.order(completed_at: :asc) %>
   <% @tus.each do |tu| %>
   <% if tu.completed_at != nil %>
     <div class="col-md-1"> 

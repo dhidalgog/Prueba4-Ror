@@ -9,6 +9,11 @@
       <li class="nav-item active">
         <a class="nav-link" href="<%= tasks_path %>"> Tareas </a>
       </li>
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <a class="nav-link">Completed Task: <%= @count %> </a>
+        </li>
+      <% end %>
     </ul>
 
       <ul class="nav navbar-nav navbar-right">
