@@ -1,5 +1,8 @@
 # README
 
+Para acceder al sitio ingresar al siguiente link:
+https://polar-ocean-97085.herokuapp.com/
+
 Prueba II de Rails
 Historias de usuario:
 
